@@ -1,0 +1,71 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Reservations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Room</th>
+      <th>Approved</th>
+      <th>Start date</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>User</th>
+      <th>Admin user</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Reservations.where("start_date >= ?", Date.today).each do |reservation| %>
+      <tr>
+        <td><%= reservation.name %></td>
+        <td><%= reservation.description %></td>
+        <td><%= reservation.room.name %></td>
+        <% if reservation.approved == true %>
+          <div id="approved">
+            <td><%= "Yes"%></td>
+          </div>
+        <% end %>
+        <% if reservation.approved == false %>
+         <td><%= "No"%></td>
+        <% end %>
+        <!--<td><%= reservation.approved %></td>-->        
+        <td><%= reservation.start_date.strftime("%m/%d/%Y") %></td>
+        <td><%= reservation.start_time.strftime('%H:%M:%p') %></td>
+        <td><%= reservation.end_time.strftime('%H:%M:%p') %></td>
+        <td><%= reservation.user_id %></td>
+        <td><%= reservation.admin_user_id %></td>
+        <td><%= link_to 'Show', reservation %></td>
+        <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
+        <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reservation', new_reservation_path %>
+
+
+<br>
+<br>
+<div id="calendar">
+<%= month_calendar do |date| %>
+  <!--<div id="monthday">-->
+  <%= date.day %>
+  <!--</div>-->
+  <% Reservations.where("start_date >= ?", Date.today).each do |r| %>
+    <% if date.strftime("%m/%d/%Y") == r.start_date.strftime("%m/%d/%Y")%>
+     <div id="meeting">
+      <%= r.name %>
+    </div>
+    <% end %>
+  <% end %>
+
+<% end %>
+</div>
+

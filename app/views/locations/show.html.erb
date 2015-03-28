@@ -1,0 +1,126 @@
+<div id="wrapper">
+  <div class = "header" id="header">
+    <h1 class="site_title" id="site_title"><img id="site_title_image" alt="Innova Rooms" src="/assets/innova_logo-0da0ad8d02cf9e0132cb76b4e3d93e4c.png" /></h1>
+    <ul class="header-item tabs" id="tabs">
+          <li id="Reservations"><a href="/reservations">Reservations</a></li>
+          <li id="Rooms"><a href="/rooms">Available Rooms</a></li>
+          <li id="Locations"><a href="/locations">Available Locations</a></li>
+          <% unless (current_admin_user rescue nil).nil?%>
+            <% if current_admin_user.super_user == true%>
+              <li id="dashboard"><a href="/admin/dashboard">Admin Area</a></li>
+            <%end%>
+          <%end%>
+        </ul>
+        <ul class="header-item tabs" id="utility_nav">
+
+          <% unless (current_admin_user rescue nil).nil?%>       
+            <li id="current_user"><a><%= current_admin_user.email %></a></li>
+            <li id="logout"><a data-method="get" href="/admin/logout">Logout</a></li>
+          <%else%>
+            <li id="sign_in"><a data-method="get" href="/admin/login">Sign In</a></li>
+          <%end%>
+        </ul>
+
+  </div>
+ 
+  <div class="title_bar" id="title_bar">
+    <div id="titlebar_left">
+       
+        <h2 id="page_title">Locations</h2>
+    </div>
+  <div id="titlebar_right">
+    <div class="action_items">
+      <span class="action_item"><%= link_to 'New Reservation', new_reservation_path %></span>
+    </div>
+  </div>
+</div>
+<!-- Head information-->
+
+<div class="flashes"></div>
+  <div id="active_admin_content" class="without_sidebar">
+    <div id="main_content_wrapper">
+      <div id="main_content">
+        <div class="panel">
+              <h3>Location Details</h3>
+          <div class="panel_contents">
+            <div class="attributes_table locations" id="attributes_table_reservations_8">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tbody><tr class="row row-name">
+                        <th>Name</th>
+                        <td><%= @location.name %></td>
+                      </tr>
+                      <tr class="row row-description">
+                        <th>Description</th>
+                        <td><%= @location.description %></td>
+                      </tr>
+                      <tr class="row row-address_l1">
+                        <th>Address Line 1</th>
+                        <td><%= @location.address_l1 %></td>
+                      </tr>
+                      <tr class="row row-address_l2">
+                        <th>Address Line 2</th>
+                        <td><%= @location.address_l2 %></td>
+                      </tr>
+                      <tr class="row row-city">
+                        <th>City</th>
+                        <td><%= @location.city %></td>
+                      </tr>
+                      <tr class="row row-state">
+                        <th>State</th>
+                        <td><%= @location.state %></td>
+                      </tr>
+                      <tr class="row row-zipcode">
+                        <th>ZipCode</th>
+                        <td><%= @location.zipcode %></td>
+                      </tr>
+                      <tr class="row row-phone_number">
+                        <th>Phone Number</th>
+                        <td><%= @location.phone_number %></td>
+                      </tr>
+                      <tr class="row row-admin_user">
+                        <th>Admin User</th>
+                        <%if @location.admin_user != nil %>
+                          <td><%= @location.admin_user.email %></td>
+                        <%else%>
+                          <td>none</td>
+                        <%end%>
+                      </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+       <div class="panel">
+            <h3>Available Rooms</h3>
+             <div class="index_content">
+               <div class="index_as_table">
+
+              <div class="attributes_table reservations" id="attributes_table_reservations_8">
+                 <table border="0" cellspacing="0" cellpadding="0" id="index_table_reservations" class="index_table index" paginator="true">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Capacity</th>
+                      <th>Location</th>
+                      <th>Admin user</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <% Rooms.where("location_id = ?", @location.id).each do |room|%>
+                              <tr>
+                                <td><%= link_to room.name, room %></td>
+                                <td><%= room.capacity %></td>
+                                <td><%= room.location.name %></td>
+                                <td><%= room.admin_user.email %></td>
+                              </tr>
+                            <!-- End loop here-->
+                          <%end%>
+                    </tbody>
+                </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<%=link_to "Back", :back%>

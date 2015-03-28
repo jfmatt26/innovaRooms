@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xtml" xml:lang="en" lang="en">
+<body class="new admin_reservations active_admin logged_in admin_namespace">
+<div id="wrapper">
+  <div class = "header" id="header">
+    <h1 class="site_title" id="site_title"><img id="site_title_image" alt="Innova Rooms" src="/assets/innova_logo-0da0ad8d02cf9e0132cb76b4e3d93e4c.png" /></h1>
+    <ul class="header-item tabs" id="tabs">
+          <li id="Reservations"><a href="/reservations">Reservations</a></li>
+          <li id="Rooms"><a href="/rooms">Available Rooms</a></li>
+          <li id="Locations"><a href="/locations">Available Locations</a></li>
+          <% unless (current_admin_user rescue nil).nil?%>
+            <% if current_admin_user.super_user == true%>
+              <li id="dashboard"><a href="/admin/dashboard">Admin Area</a></li>
+            <%end%>
+          <%end%>
+        </ul>
+        <ul class="header-item tabs" id="utility_nav">
+
+          <% unless (current_admin_user rescue nil).nil?%>       
+            <li id="current_user"><a><%= current_admin_user.email %></a></li>
+            <li id="logout"><a data-method="get" href="/admin/logout">Logout</a></li>
+          <%else%>
+            <li id="sign_in"><a data-method="get" href="/admin/login">Sign In</a></li>
+          <%end%>
+        </ul>
+  </div>
+ 
+  <div class="title_bar" id="title_bar">
+    <div id="titlebar_left">
+        
+        <h2 id="page_title">New Reservation</h2>
+    </div>
+  <div id="titlebar_right">
+    <div class="action_items">
+    </div>
+  </div>
+</div>
+
+<div class="flashes"></div>
+
+    <% unless (current_admin_user rescue nil).nil?%>
+      <%= render 'form'%>
+    <%else%>
+      </br>
+      <h2 style="color:red">New Reservations Requires a sign in.</h2>
+    <%end%>
+
+</body>
+<div class="footer" id="footer" style="text-align: Left;">
+        <div>
+          <small>Innova Powering What&#39;s Next <%=Date.today.year%></small>
+      </div>
+</div>
+
+</html>

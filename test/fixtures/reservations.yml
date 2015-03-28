@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyString
+  room_id: 1
+  approved: false
+  start_date: 2015-03-18
+  start_time: 2015-03-18 22:56:31
+  end_time: 2015-03-18 22:56:31
+  user_id: 1
+  admin_user_id: 1
+
+two:
+  name: MyString
+  description: MyString
+  room_id: 1
+  approved: false
+  start_date: 2015-03-18
+  start_time: 2015-03-18 22:56:31
+  end_time: 2015-03-18 22:56:31
+  user_id: 1
+  admin_user_id: 1

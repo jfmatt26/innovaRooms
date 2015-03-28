@@ -1,0 +1,28 @@
+<div id="active_admin_content" class="without_sidebar">
+  <div id="main_content_wrapper">
+    <div id="main_content">
+  
+       
+        <%= semantic_form_for(@reservation) do |f| %>
+          <%= f.semantic_errors *f.object.errors.keys %>
+
+
+            <%= f.inputs :name => "Reservation" do %>
+              
+                <%= f.input :name%><br>
+                <%= f.input :description %><br>
+                <%= f.input :room , :prompt => {:room => "Room"} %><br>
+                <%= f.input :start_date, :include_blank => false,  :prompt => {:day => "Day", :month => "Month", :year => "Year"}, :start_year => Time.now.year, :hint => "Date must be today or later"%><br>
+                <%= f.input :start_time, :ampm => true, :start_hour => 9, :end_hour => 21, :include_blank => false, :as => :time_select , :minute_step => 15, :hint => "Start time must be before end time"  %><br>
+                <%= f.input :end_time, :ampm => true, :start_hour => 9, :end_hour => 22,:include_blank => false, :as => :time_select,  :minute_step => 15 %><br>
+                <%= f.input :user_id, :as => :hidden%><br>
+                <%=f.input :user_id, :as => :hidden, :input_html => {:value => current_admin_user.id}%>
+                <%= f.submit %>
+                <!-- Spaceing for Form-->
+                &nbsp&nbsp&nbsp
+                <span class="action_item"><%= link_to 'Cancel', reservations_path %></span>
+            <%end%>
+        <%end%>
+    </div>
+  </div>
+</div>

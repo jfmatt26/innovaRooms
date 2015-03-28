@@ -1,0 +1,73 @@
+<div id="wrapper">
+  <div class = "header" id="header">
+    <h1 class="site_title" id="site_title"><img id="site_title_image" alt="Innova Rooms" src="/assets/innova_logo-0da0ad8d02cf9e0132cb76b4e3d93e4c.png" /></h1>
+    <ul class="header-item tabs" id="tabs">
+          <li id="Reservations"><a href="/reservations">Reservations</a></li>
+          <li id="Rooms"><a href="/rooms">Available Rooms</a></li>
+          <li id="Locations"><a href="/locations">Available Locations</a></li>
+          <% unless (current_admin_user rescue nil).nil?%>
+            <% if current_admin_user.super_user == true%>
+              <li id="dashboard"><a href="/admin/dashboard">Admin Area</a></li>
+            <%end%>
+          <%end%>
+        </ul>
+        <ul class="header-item tabs" id="utility_nav">
+
+          <% unless (current_admin_user rescue nil).nil?%>       
+            <li id="current_user"><a><%= current_admin_user.email %></a></li>
+            <li id="logout"><a data-method="get" href="/admin/logout">Logout</a></li>
+          <%else%>
+            <li id="sign_in"><a data-method="get" href="/admin/login">Sign In</a></li>
+          <%end%>
+        </ul>
+
+  </div>
+ 
+  <div class="title_bar" id="title_bar">
+    <div id="titlebar_left">
+      
+        <h2 id="page_title">Available Rooms</h2>
+    </div>
+  <div id="titlebar_right">
+    <div class="action_items">
+      <span class="action_item"><%= link_to 'New Reservation', new_reservation_path %></span>
+    </div>
+  </div>
+</div>
+
+<div class="flashes"></div>
+  <div id="active_admin_content" class="without_sidebar">
+    <div id="main_content_wrapper">
+      <div id="main_content">
+<!-- Header and styles -->
+
+<div class="index_content">
+  <div class="index_as_table">
+    <table border="0" cellspacing="0" cellpadding="0" id="index_table_reservations" class="index_table index" paginator="true">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Capacity</th>
+      <th>Location</th>
+      <th>Admin user</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rooms.each do |room| %>
+      <tr>
+        <td><%= link_to room.name, room %></td>
+        <td><%= room.capacity %></td>
+        <td><%= link_to room.location.name, room.location%></td>
+        <td><%= room.admin_user.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<div class="footer" id="footer" style="text-align: Left;">
+        <div>
+          <small>Innova Powering What&#39;s Next <%=Date.today.year%></small>
+      </div>
+</div>
